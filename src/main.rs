@@ -2,7 +2,6 @@ mod test_async;
 
 use std::cmp::Ordering;
 use std::{io};
-use futures::future::join_all;
 use rand::{Rng};
 
 
@@ -11,15 +10,8 @@ async fn main() {
     println!("Загадайте число!");
     let mut local_rng = rand::thread_rng();
 
-    let mut tasks = Vec::new();
+    test_async::test_async_printing(&mut local_rng, 10).await;
 
-    for i in 1..=10 {
-        let task = test_async::print_start_end(local_rng.gen_range(1..=10), i);
-        tasks.push(task);
-    }
-
-    // Wait all tasks like Promise.all() in Javascript
-    join_all(tasks).await;
     let secret_number = local_rng.gen_range(1..=100);
 
     loop {
