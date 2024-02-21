@@ -15,6 +15,19 @@ pub async fn test_async_printing<T: Rng>(local_rng: &mut T, amount: u64) {
 
     join_all(tasks).await;
 }
+
+
+pub async fn test_async_printing_arr(slice: &[u64]) {
+    let mut tasks = Vec::new();
+
+    for (i, value) in slice.iter().enumerate() {
+        let task = print_start_end(*value, i as u64 + 1);
+        tasks.push(task);
+    }
+
+    join_all(tasks).await;
+}
+
 async fn print_start_end(wait_seconds: u64, number: u64){
     let s = format!("TASK #{number}: ");
     println!("{s}Wait for {wait_seconds} s.");
